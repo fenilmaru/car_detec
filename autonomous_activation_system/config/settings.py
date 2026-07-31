@@ -93,19 +93,18 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR / ".env")
-
 # Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'app_db'),
-        'USER': os.getenv('DB_USER', 'postgres'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'postgres'),
-        'HOST': os.getenv('DB_HOST', '127.0.0.1'),
-        'PORT': os.getenv('DB_PORT', '5432'),
-    }
-}
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": os.environ["app_db"],
+#         "USER": os.environ["postgres"],
+#         "PASSWORD": os.environ["postgres"],
+#         "HOST": os.environ["DB_HOST"],
+#         "PORT": os.environ.get("DB_PORT", "5432"),
+#     }
+# }
 
 # Custom User Model
 AUTH_USER_MODEL = 'authentication.User'
