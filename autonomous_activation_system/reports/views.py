@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Avg, Sum, Q
-from vehicles.models import Vehicle, Trip
-from accidents.models import Accident
-from camera.models import DetectionLog
-from notifications.models import Notification
+from autonomous_activation_system.vehicles.models import Vehicle, Trip
+from autonomous_activation_system.accidents.models import Accident
+from autonomous_activation_system.camera.models import DetectionLog
+from autonomous_activation_system.notifications.models import Notification
 from django.utils import timezone
 from datetime import timedelta
 

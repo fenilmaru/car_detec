@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from tracking.models import GPSLocation, RouteHistory
-from vehicles.models import Vehicle
+from autonomous_activation_system.tracking.models import GPSLocation, RouteHistory
+from autonomous_activation_system.vehicles.models import Vehicle
 
 @login_required
 def tracking_view(request):
