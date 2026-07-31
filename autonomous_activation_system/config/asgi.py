@@ -14,7 +14,7 @@ os.environ.setdefault(
 
 django_asgi_app = get_asgi_application()
 
-from websocket.routing import websocket_urlpatterns
+from autonomous_activation_system.websocket.routing import websocket_urlpatterns
 
 application = ProtocolTypeRouter({
     "http": django_asgi_app,

@@ -18,24 +18,23 @@ DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
 
 # Application definition
-DJANGO_APPS = [
+
+INSTALLED_APPS = [
+    # Django Apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
 
-THIRD_PARTY_APPS = [
+    # Third Party Apps
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
     'channels',
-]
 
-LOCAL_APPS = [
-    'autonomous_activation_system.config',
+    # Project Apps
     'autonomous_activation_system.authentication',
     'autonomous_activation_system.dashboard',
     'autonomous_activation_system.vehicles',
@@ -51,8 +50,6 @@ LOCAL_APPS = [
     'autonomous_activation_system.common',
     'autonomous_activation_system.websocket',
 ]
-
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -86,23 +83,21 @@ TEMPLATES = [
 WSGI_APPLICATION = 'autonomous_activation_system.config.wsgi.application'
 ASGI_APPLICATION = 'autonomous_activation_system.config.asgi.application'
 
-from pathlib import Path
-import os
-from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR / ".env")
 # Database
 
+# Database
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ["DB_NAME"],
-        "USER": os.environ["DB_USER"],
-        "PASSWORD": os.environ["DB_PASSWORD"],
-        "HOST": os.environ["DB_HOST"],
-        "PORT": os.environ.get("DB_PORT", "5432"),
+        "NAME": os.getenv("DB_NAME", "app_db"),
+        "USER": os.getenv("DB_USER", "postgres"),
+        "PASSWORD": os.getenv("DB_PASSWORD", "admin"),
+        "HOST": os.getenv("DB_HOST", "127.0.0.1"),
+        "PORT": os.getenv("DB_PORT", "5432"),
     }
 }
 
