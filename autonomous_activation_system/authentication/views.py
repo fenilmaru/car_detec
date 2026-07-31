@@ -35,7 +35,7 @@ def register_view(request):
         if serializer.is_valid():
             user = serializer.save()
             messages.success(request, 'Account created. Please login.')
-            return redirect('auth:login')
+            return redirect('authauthentication:login')
         messages.error(request, 'Registration failed.')
     return render(request, 'partials/register.html')
 
@@ -48,5 +48,5 @@ def profile_view(request):
         user.phone = request.POST.get('phone', user.phone)
         user.save()
         messages.success(request, 'Profile updated.')
-        return redirect('auth:profile')
+        return redirect('authentication:profile')
     return render(request, 'partials/profile.html', {'user': user})
