@@ -35,21 +35,21 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    'config',
-    'authentication',
-    'dashboard',
-    'vehicles',
-    'drivers',
-    'camera',
-    'tracking',
-    'accidents',
-    'emergency',
-    'reports',
-    'analytics',
-    'notifications',
-    'api',
-    'common',
-    'websocket',
+    'autonomous_activation_system.config',
+    'autonomous_activation_system.authentication',
+    'autonomous_activation_system.dashboard',
+    'autonomous_activation_system.vehicles',
+    'autonomous_activation_system.drivers',
+    'autonomous_activation_system.camera',
+    'autonomous_activation_system.tracking',
+    'autonomous_activation_system.accidents',
+    'autonomous_activation_system.emergency',
+    'autonomous_activation_system.reports',
+    'autonomous_activation_system.analytics',
+    'autonomous_activation_system.notifications',
+    'autonomous_activation_system.api',
+    'autonomous_activation_system.common',
+    'autonomous_activation_system.websocket',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -65,7 +65,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = 'autonomous_activation_system.config.urls'
 
 TEMPLATES = [
     {
@@ -83,8 +83,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
-ASGI_APPLICATION = 'config.asgi.application'
+WSGI_APPLICATION = 'autonomous_activation_system.config.wsgi.application'
+ASGI_APPLICATION = 'autonomous_activation_system.config.asgi.application'
 
 from pathlib import Path
 import os
