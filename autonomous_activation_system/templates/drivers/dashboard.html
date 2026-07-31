@@ -1,0 +1,41 @@
+{% extends 'base/base.html' %}
+{% block title %}Drivers | AAS{% endblock %}
+{% block content %}
+<div class="container-fluid px-4 py-4" data-aos="fade-up">
+    <h2 class="text-light mb-4"><i class="fas fa-users text-neon me-2"></i>Driver Dashboard</h2>
+    <div class="glass-card p-3 rounded-4">
+        <div class="d-flex justify-content-between mb-3">
+            <form class="d-flex" method="get">
+                <input type="text" name="q" value="{{ search }}" class="form-control form-control-sm bg-transparent border-secondary text-light me-2" placeholder="Search drivers...">
+                <select name="status" class="form-select form-select-sm bg-transparent border-secondary text-light me-2">
+                    <option value="">All</option>
+                    <option value="active" {% if status_filter == 'active' %}selected{% endif %}>Active</option>
+                    <option value="suspended" {% if status_filter == 'suspended' %}selected{% endif %}>Suspended</option>
+                </select>
+                <button class="btn btn-sm btn-neon" type="submit">Search</button>
+            </form>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-dark table-hover">
+                <thead><tr><th>Driver</th><th>License</th><th>Class</th><th>Status</th><th>Safety Score</th><th>Trips</th><th>Distance</th><th>Action</th></tr></thead>
+                <tbody>
+                    {% for d in drivers %}
+                    <tr>
+                        <td class="text-light"><i class="fas fa-user me-2 text-muted"></i>{{ d.user.get_full_name|default:d.user.username }}</td>
+                        <td class="text-muted">{{ d.license_number }}</td>
+                        <td><span class="badge bg-info">{{ d.license_class }}</span></td>
+                        <td><span class="badge bg-{{ d.status|default:'secondary' }}">{{ d.get_status_display }}</span></td>
+                        <td><span class="text-{{ d.safety_score|floatformat:0|add:'0' }}">{% if d.safety_score >= 90 %}{{ d.safety_score|floatformat:1 }}{% elif d.safety_score >= 70 %}{{ d.safety_score|floatformat:1 }}{% else %}{{ d.safety_score|floatformat:1 }}{% endif %}</span></td>
+                        <td class="text-light">{{ d.total_trips }}</td>
+                        <td class="text-muted">{{ d.total_distance_km }} km</td>
+                        <td><a href="{% url 'drivers:detail' d.pk %}" class="btn btn-sm btn-outline-info">View</a></td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="8" class="text-center text-muted">No drivers found</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

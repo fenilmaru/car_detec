@@ -1,0 +1,53 @@
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.db.models import Count, Avg, Sum, Q
+from vehicles.models import Vehicle, Trip
+from drivers.models import Driver
+from accidents.models import Accident
+from camera.models import DetectionLog
+from tracking.models import GPSLocation
+from django.utils import timezone
+from datetime import timedelta, datetime
+
+@login_required
+def analytics_view(request):
+    now = timezone.now()
+    thirty = now - timedelta(days=30)
+
+    # Fleet utilization
+    total_vehicles = Vehicle.objects.count()
+    active_vehicles = Vehicle.objects.filter(status='active').count()
+    utilization = (active_vehicles / total_vehicles * 100) if total_vehicles > 0 else 0
+
+    # Driver performance
+    top_drivers = Driver.objects.annotate(trip_count=Count('trips')).order_by('-trip_count')[:10]
+
+    # Safety metrics
+    accidents_by_severity = list(Accident.objects.filter(reported_at__gte=thirty).values('severity').annotate(count=Count('id')))
+    detections_by_type = list(DetectionLog.objects.filter(created_at__gte=thirty).values('detection_type').annotate(count=Count('id')))
+    critical_events = DetectionLog.objects.filter(severity='critical', created_at__gte=thirty).count()
+
+    # Daily trends
+    daily_detections = []
+    for i in range(30):
+        day = now - timedelta(days=29-i)
+        day_start = day.replace(hour=0, minute=0, second=0, microsecond=0)
+        day_end = day_start + timedelta(days=1)
+        count = DetectionLog.objects.filter(created_at__gte=day_start, created_at__lt=day_end).count()
+        daily_detections.append({'date': day.strftime('%m/%d'), 'count': count})
+
+    # Trip stats
+    total_trips = Trip.objects.filter(start_time__gte=thirty).count()
+    completed_trips = Trip.objects.filter(start_time__gte=thirty, status='completed').count()
+
+    context = {
+        'utilization': round(utilization, 1),
+        'top_drivers': top_drivers,
+        'accidents_by_severity': accidents_by_severity,
+        'detections_by_type': detections_by_type,
+        'critical_events': critical_events,
+        'daily_detections': daily_detections,
+        'total_trips': total_trips,
+        'completed_trips': completed_trips,
+    }
+    return render(request, 'analytics/index.html', context)

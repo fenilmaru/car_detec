@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+{% block title %}Routes | AAS{% endblock %}
+{% block content %}
+<div class="container-fluid px-4 py-4" data-aos="fade-up">
+    <h2 class="text-light mb-4"><i class="fas fa-route text-neon me-2"></i>Route History</h2>
+    <div class="glass-card p-3 rounded-4">
+        <table class="table table-dark table-hover">
+            <thead><tr><th>Vehicle</th><th>Start</th><th>End</th><th>Distance</th><th>Avg Speed</th><th>Max Speed</th><th>Date</th></tr></thead>
+            <tbody>
+                {% for r in routes %}
+                <tr>
+                    <td class="text-light">{{ r.vehicle.license_plate }}</td>
+                    <td class="text-muted">{{ r.start_latitude|floatformat:4 }}, {{ r.start_longitude|floatformat:4 }}</td>
+                    <td class="text-muted">{{ r.end_latitude|default:"-"|floatformat:4 }}, {{ r.end_longitude|default:"-"|floatformat:4 }}</td>
+                    <td class="text-light">{{ r.total_distance_km }} km</td>
+                    <td class="text-info">{{ r.avg_speed }} km/h</td>
+                    <td class="text-warning">{{ r.max_speed }} km/h</td>
+                    <td class="text-muted">{{ r.start_time|date:"M d, Y H:i" }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="7" class="text-center text-muted">No routes recorded</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

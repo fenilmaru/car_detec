@@ -1,0 +1,42 @@
+{% extends 'base/base.html' %}
+{% block title %}Contacts | AAS{% endblock %}
+{% block content %}
+<div class="container-fluid px-4 py-4" data-aos="fade-up">
+    <h2 class="text-light mb-4"><i class="fas fa-address-book text-neon me-2"></i>Emergency Contacts</h2>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="glass-card p-3 rounded-4">
+                <h5 class="text-light mb-3">My Emergency Contacts</h5>
+                {% for c in contacts %}
+                <div class="d-flex justify-content-between align-items-center p-2 mb-2 bg-dark-subtle rounded-3">
+                    <div>
+                        <strong class="text-light">{{ c.name }}</strong>
+                        <span class="badge bg-info ms-2">{{ c.relationship }}</span>
+                        {% if c.is_primary %}<span class="badge bg-warning ms-1">Primary</span>{% endif %}
+                    </div>
+                    <div>
+                        <a href="tel:{{ c.phone }}" class="btn btn-sm btn-outline-success"><i class="fas fa-phone"></i></a>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-muted text-center py-3">No emergency contacts added</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="glass-card p-3 rounded-4">
+                <h5 class="text-light mb-3">Emergency Services</h5>
+                {% for s in services %}
+                <div class="d-flex justify-content-between align-items-center p-2 mb-2 bg-dark-subtle rounded-3">
+                    <div>
+                        <strong class="text-light">{{ s.name }}</strong>
+                        <small class="text-muted d-block">{{ s.service_type }}</small>
+                    </div>
+                    <a href="tel:{{ s.phone }}" class="btn btn-sm btn-outline-danger"><i class="fas fa-phone-alt"></i></a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

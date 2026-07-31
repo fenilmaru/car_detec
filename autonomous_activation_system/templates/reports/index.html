@@ -1,0 +1,82 @@
+{% extends 'base/base.html' %}
+{% block title %}Reports | AAS{% endblock %}
+{% block content %}
+<div class="container-fluid px-4 py-4" data-aos="fade-up">
+    <div class="d-flex justify-content-between mb-4">
+        <h2 class="text-light"><i class="fas fa-file-alt text-neon me-2"></i>Reports</h2>
+        <form class="d-flex" method="get">
+            <select name="period" class="form-select form-select-sm bg-transparent border-secondary text-light me-2">
+                <option value="day" {% if period == 'day' %}selected{% endif %}>Today</option>
+                <option value="week" {% if period == 'week' %}selected{% endif %}>This Week</option>
+                <option value="month" {% if period == 'month' %}selected{% endif %}>This Month</option>
+                <option value="year" {% if period == 'year' %}selected{% endif %}>This Year</option>
+            </select>
+            <button class="btn btn-sm btn-neon" type="submit">Generate</button>
+        </form>
+    </div>
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="glass-card p-3 rounded-4 text-center">
+                <h2 class="text-info">{{ trips }}</h2>
+                <p class="text-muted">Total Trips</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="glass-card p-3 rounded-4 text-center">
+                <h2 class="text-danger">{{ accidents }}</h2>
+                <p class="text-muted">Accidents</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="glass-card p-3 rounded-4 text-center">
+                <h2 class="text-warning">{{ detections }}</h2>
+                <p class="text-muted">AI Detections</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="glass-card p-3 rounded-4 text-center">
+                <h2 class="text-success">{{ avg_detection|default:"0"|floatformat:2 }}</h2>
+                <p class="text-muted">Avg Confidence</p>
+            </div>
+        </div>
+    </div>
+    <div class="row g-3">
+        <div class="col-lg-6">
+            <div class="glass-card p-3 rounded-4">
+                <h5 class="text-light mb-3">Accident Severity</h5>
+                <canvas id="severityChart"></canvas>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="glass-card p-3 rounded-4">
+                <h5 class="text-light mb-3">Detection Types</h5>
+                <canvas id="detTypeChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row g-3 mt-3">
+        <div class="col-12">
+            <div class="glass-card p-3 rounded-4">
+                <h5 class="text-light mb-3">Most Active Vehicles</h5>
+                <table class="table table-dark table-hover">
+                    <thead><tr><th>Vehicle</th><th>Trips</th></tr></thead>
+                    <tbody>
+                        {% for v in vehicle_activity %}
+                        <tr><td class="text-light">{{ v.vehicle__license_plate }}</td><td class="text-info">{{ v.trips }}</td></tr>
+                        {% empty %}
+                        <tr><td colspan="2" class="text-center text-muted">No data</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    const severityData = {{ severity_breakdown|safe }};
+    const detTypeData = {{ detection_breakdown|safe }};
+</script>
+<script src="{% static 'js/analytics.js' %}"></script>
+{% endblock %}
