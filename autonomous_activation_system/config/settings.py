@@ -87,19 +87,23 @@ ASGI_APPLICATION = 'autonomous_activation_system.config.asgi.application'
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR / ".env")
-# Database
 
-# Database
+# Database (SQLite for Django system tables)
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DB_NAME", "app_db"),
-        "USER": os.getenv("DB_USER", "postgres"),
-        "PASSWORD": os.getenv("DB_PASSWORD", "admin"),
-        "HOST": os.getenv("DB_HOST", "localhost"),
-        "PORT": os.getenv("DB_PORT", "5432"),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+# MongoDB Connection (PyMongo)
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
+MONGO_DB_NAME = os.getenv("MONGO_DB", "autonomous_activation_system")
+
+from pymongo import MongoClient
+
+mongo_client = MongoClient(MONGO_URI)
+mongo_db = mongo_client[MONGO_DB_NAME]
 
 # Custom User Model
 AUTH_USER_MODEL = 'authentication.User'

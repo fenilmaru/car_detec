@@ -217,7 +217,7 @@ def analytics_overview(request):
     thirty = now - timedelta(days=30)
     seven = now - timedelta(days=7)
 
-    total_vehicles = Vehicle.objects.count()
+    total_vehicles = ount()
     active_vehicles = Vehicle.objects.filter(status='active').count()
     total_drivers = Driver.objects.filter(status='active').count()
     total_accidents = Accident.objects.count()
