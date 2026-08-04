@@ -84,6 +84,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'autonomous_activation_system.config.wsgi.application'
 ASGI_APPLICATION = 'autonomous_activation_system.config.asgi.application'
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 1351bb7ec33ebcee08f85bf8ef466dcda7cf2073
 load_dotenv(BASE_DIR / ".env")
 
 # Database
@@ -104,6 +108,32 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+<<<<<<< HEAD
+=======
+=======
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / ".env")
+
+# Database (SQLite for Django system tables)
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
+
+# MongoDB Connection (PyMongo)
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
+MONGO_DB_NAME = os.getenv("MONGO_DB", "autonomous_activation_system")
+
+from pymongo import MongoClient
+
+mongo_client = MongoClient(MONGO_URI)
+mongo_db = mongo_client[MONGO_DB_NAME]
+>>>>>>> bc576b54091f55fc632f55837fcdde4d6611e04c
+>>>>>>> 1351bb7ec33ebcee08f85bf8ef466dcda7cf2073
 
 # Custom User Model
 AUTH_USER_MODEL = 'authentication.User'
