@@ -14,17 +14,10 @@ djangorestframework-simplejwt==5.3.1
 django-filter==24.3
 
 # ======================================
-<<<<<<< HEAD
 # PostgreSQL
 # ======================================
 psycopg2-binary==2.9.10
 dj-database-url==2.3.0
-=======
-# MongoDB
-# ======================================
-pymongo==4.10.1
-dnspython==2.7.0
->>>>>>> 1351bb7ec33ebcee08f85bf8ef466dcda7cf2073
 
 # ======================================
 # WebSocket
