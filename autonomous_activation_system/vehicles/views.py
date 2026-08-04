@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from vehicles.models import Vehicle, VehicleType, Trip
+from autonomous_activation_system.vehicles.models import Vehicle, VehicleType, Trip
 from django.db.models import Count, Q
 
 @login_required

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from emergency.models import SOSAlert, EmergencyContact, EmergencyService
+from autonomous_activation_system.emergency.models import SOSAlert, EmergencyContact, EmergencyService
 
 class SOSAlertSerializer(serializers.ModelSerializer):
     vehicle_plate = serializers.CharField(source='vehicle.license_plate', read_only=True)

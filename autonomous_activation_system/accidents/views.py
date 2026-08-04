@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from accidents.models import Accident
+from autonomous_activation_system.accidents.models import Accident
 
 @login_required
 def accident_list(request):

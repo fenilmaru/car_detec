@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from vehicles.models import Vehicle, VehicleType, Trip, TripRoute
+from autonomous_activation_system.vehicles.models import Vehicle, VehicleType, Trip, TripRoute
 
 class VehicleTypeSerializer(serializers.ModelSerializer):
     class Meta:

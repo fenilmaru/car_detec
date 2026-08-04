@@ -1,12 +1,12 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 from channels.db import database_sync_to_async
-from vehicles.models import Vehicle
-from tracking.models import GPSLocation
-from camera.models import DetectionLog
-from accidents.models import Accident
-from emergency.models import SOSAlert
-from notifications.models import Notification
+from autonomous_activation_system.vehicles.models import Vehicle
+from autonomous_activation_system.tracking.models import GPSLocation
+from autonomous_activation_system.camera.models import DetectionLog
+from autonomous_activation_system.accidents.models import Accident
+from autonomous_activation_system.emergency.models import SOSAlert
+from autonomous_activation_system.notifications.models import Notification
 from django.utils import timezone
 
 class DashboardConsumer(AsyncWebsocketConsumer):

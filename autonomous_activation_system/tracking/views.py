@@ -1,9 +1,14 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+<<<<<<< HEAD
 from django.core.serializers.json import DjangoJSONEncoder
 from tracking.models import GPSLocation, RouteHistory
 from vehicles.models import Vehicle
 import json
+=======
+from autonomous_activation_system.tracking.models import GPSLocation, RouteHistory
+from autonomous_activation_system.vehicles.models import Vehicle
+>>>>>>> bc576b54091f55fc632f55837fcdde4d6611e04c
 
 @login_required
 def tracking_view(request):

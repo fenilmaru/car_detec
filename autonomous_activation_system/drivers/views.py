@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from drivers.models import Driver, DriverHealth
+from autonomous_activation_system.drivers.models import Driver, DriverHealth
 from django.db.models import Q
 
 @login_required

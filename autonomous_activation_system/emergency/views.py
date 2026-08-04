@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from emergency.models import SOSAlert, EmergencyContact, EmergencyService
+from autonomous_activation_system.emergency.models import SOSAlert, EmergencyContact, EmergencyService
 
 @login_required
 def emergency_view(request):

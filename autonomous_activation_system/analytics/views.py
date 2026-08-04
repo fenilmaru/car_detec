@@ -1,12 +1,20 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Avg, Sum, Q
+<<<<<<< HEAD
 from django.core.serializers.json import DjangoJSONEncoder
 from vehicles.models import Vehicle, Trip
 from drivers.models import Driver
 from accidents.models import Accident
 from camera.models import DetectionLog
 from tracking.models import GPSLocation
+=======
+from autonomous_activation_system.vehicles.models import Vehicle, Trip
+from autonomous_activation_system.drivers.models import Driver
+from autonomous_activation_system.accidents.models import Accident
+from autonomous_activation_system.camera.models import DetectionLog
+from autonomous_activation_system.tracking.models import GPSLocation
+>>>>>>> bc576b54091f55fc632f55837fcdde4d6611e04c
 from django.utils import timezone
 from datetime import timedelta, datetime
 import json

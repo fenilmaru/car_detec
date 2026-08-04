@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from dashboard.views import home_view, dashboard_view
+from autonomous_activation_system.dashboard.views import (home_view,dashboard_view,)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -13,20 +13,23 @@ urlpatterns = [
     path('dashboard/', dashboard_view, name='dashboard'),
 
     # App URLs
-    path('auth/', include('authentication.urls')),
-    path('vehicles/', include('vehicles.urls')),
-    path('drivers/', include('drivers.urls')),
-    path('camera/', include('camera.urls')),
-    path('tracking/', include('tracking.urls')),
-    path('accidents/', include('accidents.urls')),
-    path('emergency/', include('emergency.urls')),
-    path('reports/', include('reports.urls')),
-    path('analytics/', include('analytics.urls')),
-    path('notifications/', include('notifications.urls')),
+    path('auth/', include("autonomous_activation_system.authentication.urls")),
+    path('vehicles/', include("autonomous_activation_system.vehicles.urls")),
+    path('drivers/', include("autonomous_activation_system.drivers.urls")),
+    path('camera/', include("autonomous_activation_system.camera.urls")),
+    path('tracking/', include("autonomous_activation_system.tracking.urls")),
+    path('accidents/', include("autonomous_activation_system.accidents.urls")),
+    path('emergency/', include("autonomous_activation_system.emergency.urls")),
+    path('reports/', include("autonomous_activation_system.reports.urls")),
+    path('analytics/', include("autonomous_activation_system.analytics.urls")),
+    path('notifications/', include("autonomous_activation_system.notifications.urls")),
 
     # API URLs
-    path('api/', include('api.urls')),
-    path('api/auth/', include('authentication.api_urls')),
+    path('api/', include("autonomous_activation_system.api.urls")),
+    path(
+        'api/auth/',
+        include('autonomous_activation_system.authentication.api_urls'),
+    ),
 ]
 
 if settings.DEBUG:

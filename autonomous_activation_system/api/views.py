@@ -8,32 +8,32 @@ from django.utils import timezone
 from datetime import timedelta
 
 # Vehicles
-from vehicles.models import Vehicle, VehicleType, Trip, TripRoute
-from vehicles.serializers import VehicleSerializer, VehicleTypeSerializer, TripSerializer
+from autonomous_activation_system.vehicles.models import Vehicle, VehicleType, Trip, TripRoute
+from autonomous_activation_system.vehicles.serializers import VehicleSerializer, VehicleTypeSerializer, TripSerializer
 
 # Drivers
-from drivers.models import Driver, DriverHealth
-from drivers.serializers import DriverSerializer, DriverHealthSerializer
+from autonomous_activation_system.drivers.models import Driver, DriverHealth
+from autonomous_activation_system.drivers.serializers import DriverSerializer, DriverHealthSerializer
 
 # Accidents
-from accidents.models import Accident, AccidentImage, AccidentVideo
-from accidents.serializers import AccidentSerializer, AccidentImageSerializer
+from autonomous_activation_system.accidents.models import Accident, AccidentImage, AccidentVideo
+from autonomous_activation_system.accidents.serializers import AccidentSerializer, AccidentImageSerializer
 
 # Camera & Detections
-from camera.models import Camera, DetectionLog
-from camera.serializers import CameraSerializer, DetectionLogSerializer
+from autonomous_activation_system.camera.models import Camera, DetectionLog
+from autonomous_activation_system.camera.serializers import CameraSerializer, DetectionLogSerializer
 
 # Tracking
-from tracking.models import GPSLocation, RouteHistory
-from tracking.serializers import GPSLocationSerializer, RouteHistorySerializer
+from autonomous_activation_system.tracking.models import GPSLocation, RouteHistory
+from autonomous_activation_system.tracking.serializers import GPSLocationSerializer, RouteHistorySerializer
 
 # Emergency
-from emergency.models import SOSAlert, EmergencyContact, EmergencyService
-from emergency.serializers import SOSAlertSerializer, EmergencyContactSerializer, EmergencyServiceSerializer
+from autonomous_activation_system.emergency.models import SOSAlert, EmergencyContact, EmergencyService
+from autonomous_activation_system.emergency.serializers import SOSAlertSerializer, EmergencyContactSerializer, EmergencyServiceSerializer
 
 # Notifications
-from notifications.models import Notification
-from notifications.serializers import NotificationSerializer
+from autonomous_activation_system.notifications.models import Notification
+from autonomous_activation_system.notifications.serializers import NotificationSerializer
 
 
 # Pagination
@@ -217,7 +217,7 @@ def analytics_overview(request):
     thirty = now - timedelta(days=30)
     seven = now - timedelta(days=7)
 
-    total_vehicles = Vehicle.objects.count()
+    total_vehicles = ount()
     active_vehicles = Vehicle.objects.filter(status='active').count()
     total_drivers = Driver.objects.filter(status='active').count()
     total_accidents = Accident.objects.count()

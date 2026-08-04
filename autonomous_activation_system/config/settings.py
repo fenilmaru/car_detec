@@ -18,41 +18,38 @@ DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
 
 # Application definition
-DJANGO_APPS = [
+
+INSTALLED_APPS = [
+    # Django Apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
 
-THIRD_PARTY_APPS = [
+    # Third Party Apps
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
     'channels',
-]
 
-LOCAL_APPS = [
-    'config',
-    'authentication',
-    'dashboard',
-    'vehicles',
-    'drivers',
-    'camera',
-    'tracking',
-    'accidents',
-    'emergency',
-    'reports',
-    'analytics',
-    'notifications',
-    'api',
-    'common',
-    'websocket',
+    # Project Apps
+    'autonomous_activation_system.authentication',
+    'autonomous_activation_system.dashboard',
+    'autonomous_activation_system.vehicles',
+    'autonomous_activation_system.drivers',
+    'autonomous_activation_system.camera',
+    'autonomous_activation_system.tracking',
+    'autonomous_activation_system.accidents',
+    'autonomous_activation_system.emergency',
+    'autonomous_activation_system.reports',
+    'autonomous_activation_system.analytics',
+    'autonomous_activation_system.notifications',
+    'autonomous_activation_system.api',
+    'autonomous_activation_system.common',
+    'autonomous_activation_system.websocket',
 ]
-
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -66,7 +63,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = 'autonomous_activation_system.config.urls'
 
 TEMPLATES = [
     {
@@ -84,9 +81,10 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
-ASGI_APPLICATION = 'config.asgi.application'
+WSGI_APPLICATION = 'autonomous_activation_system.config.wsgi.application'
+ASGI_APPLICATION = 'autonomous_activation_system.config.asgi.application'
 
+<<<<<<< HEAD
 load_dotenv(BASE_DIR / ".env")
 
 # Database
@@ -107,6 +105,29 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+=======
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / ".env")
+
+# Database (SQLite for Django system tables)
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
+
+# MongoDB Connection (PyMongo)
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
+MONGO_DB_NAME = os.getenv("MONGO_DB", "autonomous_activation_system")
+
+from pymongo import MongoClient
+
+mongo_client = MongoClient(MONGO_URI)
+mongo_db = mongo_client[MONGO_DB_NAME]
+>>>>>>> bc576b54091f55fc632f55837fcdde4d6611e04c
 
 # Custom User Model
 AUTH_USER_MODEL = 'authentication.User'

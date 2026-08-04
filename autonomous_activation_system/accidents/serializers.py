@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from accidents.models import Accident, AccidentImage, AccidentVideo
+from autonomous_activation_system.accidents.models import Accident, AccidentImage, AccidentVideo
 
 class AccidentImageSerializer(serializers.ModelSerializer):
     class Meta:

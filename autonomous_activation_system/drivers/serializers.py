@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from drivers.models import Driver, DriverHealth
+from autonomous_activation_system.drivers.models import Driver, DriverHealth
 
 class DriverSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username', read_only=True)

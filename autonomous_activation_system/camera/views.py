@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from camera.models import Camera, DetectionLog
+from autonomous_activation_system.camera.models import Camera, DetectionLog
 from django.db.models import Count, Q
 
 @login_required

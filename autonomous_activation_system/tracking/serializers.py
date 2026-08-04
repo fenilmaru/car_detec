@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from tracking.models import GPSLocation, RouteHistory
+from autonomous_activation_system.tracking.models import GPSLocation, RouteHistory
 
 class GPSLocationSerializer(serializers.ModelSerializer):
     vehicle_plate = serializers.CharField(source='vehicle.license_plate', read_only=True)
