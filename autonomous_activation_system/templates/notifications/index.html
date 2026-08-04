@@ -1,0 +1,41 @@
+{% extends 'base/base.html' %}
+{% block title %}Notifications | AAS{% endblock %}
+{% block content %}
+<div class="container-fluid px-4 py-4" data-aos="fade-up">
+    <div class="d-flex justify-content-between mb-4">
+        <h2 class="text-light"><i class="fas fa-bell text-neon me-2"></i>Notifications</h2>
+        <span class="badge bg-warning px-3 py-2">{{ unread_count }} Unread</span>
+    </div>
+    <div class="glass-card p-3 rounded-4">
+        {% for n in notifications %}
+        <div class="notification-item p-3 mb-2 rounded-3 {% if not n.is_read %}bg-primary-subtle{% else %}bg-dark-subtle{% endif %}">
+            <div class="d-flex justify-content-between align-items-start">
+                <div class="d-flex align-items-center gap-2">
+                    {% if n.priority == 'critical' %}
+                        <i class="fas fa-exclamation-circle text-danger fa-lg"></i>
+                    {% elif n.priority == 'high' %}
+                        <i class="fas fa-exclamation-triangle text-warning fa-lg"></i>
+                    {% else %}
+                        <i class="fas fa-info-circle text-info fa-lg"></i>
+                    {% endif %}
+                    <div>
+                        <strong class="text-light">{{ n.title }}</strong>
+                        {% if n.vehicle %}<span class="text-muted ms-2">{{ n.vehicle.license_plate }}</span>{% endif %}
+                        <p class="mb-0 text-muted small">{{ n.message|truncatechars:200 }}</p>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <span class="badge bg-{{ n.notification_type|default:'info' }}">{{ n.get_notification_type_display }}</span>
+                    <br><small class="text-muted">{{ n.created_at|timesince }} ago</small>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="text-center py-5">
+            <i class="fas fa-bell-slash fa-4x text-muted mb-3"></i>
+            <p class="text-muted">No notifications</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

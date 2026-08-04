@@ -1,0 +1,49 @@
+{% extends 'base/base.html' %}
+{% block title %}Driver Detail | AAS{% endblock %}
+{% block content %}
+<div class="container-fluid px-4 py-4" data-aos="fade-up">
+    <div class="d-flex justify-content-between mb-4">
+        <h2 class="text-light"><i class="fas fa-user text-neon me-2"></i>{{ driver.user.get_full_name|default:driver.user.username }}</h2>
+        <a href="{% url 'drivers:dashboard' %}" class="btn btn-outline-info">Back</a>
+    </div>
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="glass-card p-3 rounded-4">
+                <h6 class="text-muted">Driver Profile</h6>
+                <table class="table table-dark table-sm">
+                    <tr><td class="text-muted">License</td><td class="text-light">{{ driver.license_number }}</td></tr>
+                    <tr><td class="text-muted">Class</td><td class="text-light">{{ driver.get_license_class_display }}</td></tr>
+                    <tr><td class="text-muted">Status</td><td><span class="badge bg-{{ driver.status }}">{{ driver.get_status_display }}</span></td></tr>
+                    <tr><td class="text-muted">Safety Score</td><td class="text-light fw-bold">{{ driver.safety_score }}/100</td></tr>
+                    <tr><td class="text-muted">Total Trips</td><td class="text-light">{{ driver.total_trips }}</td></tr>
+                    <tr><td class="text-muted">Distance</td><td class="text-light">{{ driver.total_distance_km }} km</td></tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="glass-card p-3 rounded-4 mb-3">
+                <h6 class="text-muted">Recent Trips</h6>
+                {% for t in trips %}
+                <div class="d-flex justify-content-between py-2 border-bottom border-secondary">
+                    <span class="text-light">{{ t.start_location }} → {{ t.end_location }}</span>
+                    <span class="text-muted small">{{ t.distance_km }} km</span>
+                </div>
+                {% empty %}
+                <p class="text-muted text-center py-3">No trips</p>
+                {% endfor %}
+            </div>
+            <div class="glass-card p-3 rounded-4">
+                <h6 class="text-muted">Health Records</h6>
+                {% for h in health_records %}
+                <div class="py-2 border-bottom border-secondary">
+                    <small class="text-muted">{{ h.recorded_at|date:"M d, Y" }}</small>
+                    <p class="mb-0 text-light small">{{ h.medical_conditions|default:"No conditions recorded" }}</p>
+                </div>
+                {% empty %}
+                <p class="text-muted text-center py-3">No health records</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark glass-card px-3 py-2">
+    <a class="navbar-brand d-lg-none" href="{% url 'dashboard' %}">
+        <i class="fas fa-shield-halved text-neon me-2"></i>AAS
+    </a>
+    <button class="btn btn-icon" type="button" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    <div class="ms-auto d-flex align-items-center gap-3">
+        <div class="search-box d-none d-md-block">
+            <i class="fas fa-search"></i>
+            <input type="text" class="form-control form-control-sm bg-transparent border-0 text-light" placeholder="Search...">
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-icon position-relative" type="button" data-bs-toggle="dropdown" id="notifDropdown">
+                <i class="fas fa-bell"></i>
+                {% if user.notifications %}
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notifCount">
+                    {{ user.notifications.filter.is_read=False.count }}
+                </span>
+                {% endif %}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark glass-card" style="width: 320px;">
+                <li><h6 class="dropdown-header">Notifications</h6></li>
+                {% for notif in user.notifications.all|slice:":5" %}
+                <li>
+                    <a class="dropdown-item {% if not notif.is_read %}text-warning{% endif %}" href="#">
+                        <small class="text-muted">{{ notif.created_at|timesince }} ago</small><br>
+                        {{ notif.title }}
+                    </a>
+                </li>
+                {% empty %}
+                <li><span class="dropdown-item text-muted">No notifications</span></li>
+                {% endfor %}
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item text-center text-neon" href="{% url 'notifications:index' %}">View All</a></li>
+            </ul>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-icon d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
+                <img src="{% if user.avatar %}{{ user.avatar.url }}{% else %}{% static 'img/avatar-placeholder.png' %}{% endif %}"
+                     class="rounded-circle" width="32" height="32" alt="Avatar"
+                     onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><circle cx=%2216%22 cy=%2216%22 r=%2216%22 fill=%22%230d6efd%22/><text x=%2216%22 y=%2222%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2216%22>{{ user.username|first|upper }}</text></svg>'">
+                <span class="d-none d-md-inline">{{ user.username }}</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark glass-card">
+                <li><a class="dropdown-item" href="{% url 'authentication:profile' %}"><i class="fas fa-user me-2"></i>Profile</a></li>
+                <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="fas fa-cog me-2"></i>Admin</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item text-danger" href="{% url 'authentication:logout' %}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

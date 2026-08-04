@@ -1,0 +1,15 @@
+[project]
+name = "autonomous-activation-system"
+version = "1.0.0"
+description = "Enterprise AI Vehicle Safety Platform"
+requires-python = ">=3.11"
+
+[tool.gunicorn]
+bind = "0.0.0.0:8000"
+workers = 4
+threads = 2
+worker_class = "uvicorn.workers.UvicornWorker"
+timeout = 120
+accesslog = "-"
+errorlog = "-"
+loglevel = "info"

@@ -1,0 +1,62 @@
+{% load static %}
+<aside class="sidebar glass-card" id="sidebar">
+    <div class="sidebar-header p-3 text-center border-bottom border-secondary">
+        <a href="{% url 'dashboard' %}" class="text-decoration-none">
+            <h4 class="mb-0 text-neon"><i class="fas fa-shield-halved me-2"></i>AAS</h4>
+            <small class="text-muted">AI Vehicle Safety</small>
+        </a>
+    </div>
+    <nav class="sidebar-nav p-2">
+        <div class="nav-section">
+            <small class="text-muted text-uppercase fw-bold px-3">Main</small>
+            <a href="{% url 'dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="{% url 'analytics:index' %}" class="nav-link {% if 'analytics' in request.path %}active{% endif %}">
+                <i class="fas fa-chart-line"></i> Analytics
+            </a>
+            <a href="{% url 'reports:index' %}" class="nav-link {% if 'reports' in request.path %}active{% endif %}">
+                <i class="fas fa-file-alt"></i> Reports
+            </a>
+        </div>
+        <div class="nav-section mt-3">
+            <small class="text-muted text-uppercase fw-bold px-3">Fleet</small>
+            <a href="{% url 'vehicles:list' %}" class="nav-link {% if 'vehicles' in request.path %}active{% endif %}">
+                <i class="fas fa-car"></i> Vehicles
+            </a>
+            <a href="{% url 'drivers:dashboard' %}" class="nav-link {% if 'drivers' in request.path %}active{% endif %}">
+                <i class="fas fa-users"></i> Drivers
+            </a>
+            <a href="{% url 'tracking:index' %}" class="nav-link {% if 'tracking' in request.path %}active{% endif %}">
+                <i class="fas fa-map-marked-alt"></i> Tracking
+            </a>
+        </div>
+        <div class="nav-section mt-3">
+            <small class="text-muted text-uppercase fw-bold px-3">AI & Safety</small>
+            <a href="{% url 'camera:index' %}" class="nav-link {% if 'camera' in request.path %}active{% endif %}">
+                <i class="fas fa-video"></i> Live Camera
+            </a>
+            <a href="{% url 'accidents:list' %}" class="nav-link {% if 'accidents' in request.path %}active{% endif %}">
+                <i class="fas fa-car-crash"></i> Accidents
+            </a>
+            <a href="{% url 'emergency:index' %}" class="nav-link {% if 'emergency' in request.path %}active{% endif %}">
+                <i class="fas fa-exclamation-triangle"></i> Emergency
+            </a>
+        </div>
+        <div class="nav-section mt-3">
+            <small class="text-muted text-uppercase fw-bold px-3">System</small>
+            <a href="{% url 'notifications:index' %}" class="nav-link {% if 'notifications' in request.path %}active{% endif %}">
+                <i class="fas fa-bell"></i> Notifications
+            </a>
+            <a href="{% url 'admin:index' %}" class="nav-link">
+                <i class="fas fa-cogs"></i> Settings
+            </a>
+        </div>
+    </nav>
+    <div class="sidebar-footer p-3 border-top border-secondary">
+        <div class="d-flex align-items-center gap-2">
+            <div class="status-dot online"></div>
+            <small class="text-muted">System Online</small>
+        </div>
+    </div>
+</aside>

@@ -1,0 +1,37 @@
+{% extends 'base/base.html' %}
+{% block title %}Camera Detail | AAS{% endblock %}
+{% block content %}
+<div class="container-fluid px-4 py-4">
+    <div class="d-flex justify-content-between mb-4">
+        <h2 class="text-light"><i class="fas fa-video text-neon me-2"></i>{{ camera.name }} - {{ camera.vehicle.license_plate }}</h2>
+        <a href="{% url 'camera:index' %}" class="btn btn-outline-info">Back</a>
+    </div>
+    <div class="row g-3">
+        <div class="col-lg-8">
+            <div class="glass-card p-2 rounded-4">
+                <div class="bg-black rounded-3" style="height: 450px; display: flex; align-items: center; justify-content: center;">
+                    {% if camera.status == 'online' %}
+                        <div class="text-center">
+                            <i class="fas fa-broadcast-tower fa-4x text-success mb-3 animate-pulse"></i>
+                            <h5 class="text-success">Live {{ camera.get_location_display }} Camera</h5>
+                            <p class="text-muted">{{ camera.vehicle.license_plate }}</p>
+                        </div>
+                    {% else %}
+                        <div class="text-center"><i class="fas fa-video-slash fa-4x text-muted mb-3"></i><h5 class="text-muted">Camera Offline</h5></div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="glass-card p-3 rounded-4">
+                <h6 class="text-muted">Camera Info</h6>
+                <table class="table table-dark table-sm">
+                    <tr><td class="text-muted">Name</td><td class="text-light">{{ camera.name }}</td></tr>
+                    <tr><td class="text-muted">Location</td><td class="text-light">{{ camera.get_location_display }}</td></tr>
+                    <tr><td class="text-muted">Status</td><td><span class="badge bg-{{ camera.status }}">{{ camera.get_status_display }}</span></td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

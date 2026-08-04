@@ -1,0 +1,170 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Dashboard | AAS{% endblock %}
+{% block content %}
+<div class="container-fluid px-4 py-4" data-aos="fade-up">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-light mb-1"><i class="fas fa-tachometer-alt text-neon me-2"></i>Command Center</h2>
+            <p class="text-muted mb-0">Real-time AI Vehicle Safety Monitoring</p>
+        </div>
+        <div class="d-flex gap-2">
+            <span class="badge bg-success px-3 py-2" id="liveStatus"><i class="fas fa-circle me-1"></i>Live</span>
+            <span class="badge bg-info px-3 py-2" id="currentTime"></span>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="0">
+            <div class="stat-card glass-card p-3 rounded-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted mb-1">Total Vehicles</p>
+                        <h3 class="text-light mb-0">{{ stats.total_vehicles }}</h3>
+                        <small class="text-success"><i class="fas fa-arrow-up"></i> {{ stats.active_vehicles }} active</small>
+                    </div>
+                    <div class="icon-box bg-primary-subtle rounded-3"><i class="fas fa-car fa-2x text-primary"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="stat-card glass-card p-3 rounded-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted mb-1">Active Drivers</p>
+                        <h3 class="text-light mb-0">{{ stats.active_drivers }}</h3>
+                        <small class="text-muted">of {{ stats.total_drivers }} total</small>
+                    </div>
+                    <div class="icon-box bg-success-subtle rounded-3"><i class="fas fa-users fa-2x text-success"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="stat-card glass-card p-3 rounded-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted mb-1">Total Accidents</p>
+                        <h3 class="text-light mb-0">{{ stats.total_accidents }}</h3>
+                        <small class="text-danger">{{ stats.recent_accidents }} this week</small>
+                    </div>
+                    <div class="icon-box bg-danger-subtle rounded-3"><i class="fas fa-car-crash fa-2x text-danger"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="stat-card glass-card p-3 rounded-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted mb-1">Active Alerts</p>
+                        <h3 class="text-light mb-0">{{ stats.active_alerts }}</h3>
+                        <small class="text-warning">{{ stats.pending_notifications }} notifications</small>
+                    </div>
+                    <div class="icon-box bg-warning-subtle rounded-3"><i class="fas fa-exclamation-triangle fa-2x text-warning"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row g-3 mb-4">
+        <div class="col-lg-8">
+            <div class="glass-card p-3 rounded-4">
+                <h5 class="text-light mb-3"><i class="fas fa-chart-bar text-neon me-2"></i>Weekly AI Detection Activity</h5>
+                <canvas id="weeklyChart" height="100"></canvas>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="glass-card p-3 rounded-4">
+                <h5 class="text-light mb-3"><i class="fas fa-chart-pie text-neon me-2"></i>Detection Types</h5>
+                <canvas id="detectionPieChart" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Map & Detections -->
+    <div class="row g-3 mb-4">
+        <div class="col-lg-7">
+            <div class="glass-card p-3 rounded-4">
+                <h5 class="text-light mb-3"><i class="fas fa-map text-neon me-2"></i>Live Vehicle Tracking</h5>
+                <div id="map" style="height: 400px; border-radius: 12px;"></div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="glass-card p-3 rounded-4">
+                <h5 class="text-light mb-3"><i class="fas fa-robot text-neon me-2"></i>Recent AI Detections</h5>
+                <div class="detection-feed" style="max-height: 400px; overflow-y: auto;">
+                    {% for d in recent_detections %}
+                    <div class="detection-item p-2 mb-2 rounded-3 bg-dark-subtle">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <span class="badge bg-{{ d.severity|default:'info' }}">{{ d.get_severity_display }}</span>
+                                <strong class="text-light ms-2">{{ d.get_detection_type_display }}</strong>
+                            </div>
+                            <small class="text-muted">{{ d.created_at|timesince }} ago</small>
+                        </div>
+                        <div class="mt-1">
+                            <small class="text-muted">{{ d.vehicle.license_plate }}</small>
+                            {% if d.confidence_score %}
+                            <span class="ms-2 text-success">Confidence: {{ d.confidence_score|floatformat:2 }}</span>
+                            {% endif %}
+                        </div>
+                        <p class="mb-0 small text-muted">{{ d.description|truncatechars:100 }}</p>
+                    </div>
+                    {% empty %}
+                    <p class="text-muted text-center py-4">No detections yet. AI monitoring is active.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Accidents -->
+    <div class="row g-3">
+        <div class="col-12">
+            <div class="glass-card p-3 rounded-4">
+                <h5 class="text-light mb-3"><i class="fas fa-car-crash text-danger me-2"></i>Recent Accidents</h5>
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover">
+                        <thead>
+                            <tr>
+                                <th>Vehicle</th>
+                                <th>Severity</th>
+                                <th>Status</th>
+                                <th>Location</th>
+                                <th>AI Detected</th>
+                                <th>Reported</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for a in recent_accidents %}
+                            <tr>
+                                <td class="text-light">{{ a.vehicle.license_plate }}</td>
+                                <td><span class="badge bg-{{ a.severity|default:'warning' }}">{{ a.get_severity_display }}</span></td>
+                                <td><span class="badge bg-secondary">{{ a.get_status_display }}</span></td>
+                                <td class="text-muted">{{ a.location|truncatechars:40 }}</td>
+                                <td>{% if a.ai_detected %}<i class="fas fa-robot text-neon"></i>{% else %}<i class="fas fa-user text-muted"></i>{% endif %}</td>
+                                <td class="text-muted">{{ a.reported_at|timesince }} ago</td>
+                                <td><a href="{% url 'accidents:detail' a.pk %}" class="btn btn-sm btn-outline-info">View</a></td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="7" class="text-center text-muted">No accidents reported</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/dashboard.js' %}"></script>
+<script>
+    const weeklyData = {{ weekly_activity|safe }};
+    const detectionBreakdown = {{ detection_breakdown|safe }};
+    const gpsData = {{ latest_gps|safe }};
+</script>
+{% endblock %}
