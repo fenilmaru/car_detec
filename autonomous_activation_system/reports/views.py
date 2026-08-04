@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Avg, Sum, Q
+from django.core.serializers.json import DjangoJSONEncoder
 from vehicles.models import Vehicle, Trip
 from accidents.models import Accident
 from camera.models import DetectionLog
 from notifications.models import Notification
 from django.utils import timezone
 from datetime import timedelta
+import json
 
 @login_required
 def reports_view(request):
@@ -33,8 +35,8 @@ def reports_view(request):
     context = {
         'period': period, 'trips': trips, 'accidents': accidents,
         'detections': detections, 'avg_detection': avg_detection.get('avg_confidence'),
-        'severity_breakdown': severity_breakdown,
-        'detection_breakdown': detection_breakdown,
+        'severity_breakdown': json.dumps(severity_breakdown, cls=DjangoJSONEncoder),
+        'detection_breakdown': json.dumps(detection_breakdown, cls=DjangoJSONEncoder),
         'vehicle_activity': vehicle_activity,
     }
     return render(request, 'reports/index.html', context)

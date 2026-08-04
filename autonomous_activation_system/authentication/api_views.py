@@ -6,7 +6,7 @@ from .serializers import (
     UserSerializer, UserCreateSerializer, RoleSerializer,
     UserProfileSerializer, PasswordChangeSerializer
 )
-from .models import Role
+from .models import Role, UserProfile
 
 User = get_user_model()
 
@@ -39,5 +39,5 @@ class ProfileAPIView(generics.RetrieveUpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
-        profile, _ = self.request.user.profile.get_or_create(user=self.request.user)
+        profile, _ = UserProfile.objects.get_or_create(user=self.request.user)
         return profile

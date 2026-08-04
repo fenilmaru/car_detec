@@ -48,7 +48,7 @@ class DetectionLog(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     vehicle = models.ForeignKey('vehicles.Vehicle', on_delete=models.CASCADE, related_name='detection_logs')
-    camera = models.ForeignKey(Camera, on_delete=models.SET_NULL, null=True)
+    camera = models.ForeignKey(Camera, on_delete=models.SET_NULL, null=True, related_name='detection_logs')
     detection_type = models.CharField(max_length=20, choices=DETECTION_TYPE)
     severity = models.CharField(max_length=20, choices=SEVERITY, default='info')
     description = models.TextField()

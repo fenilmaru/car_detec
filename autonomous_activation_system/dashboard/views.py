@@ -10,6 +10,7 @@ from tracking.models import GPSLocation
 from emergency.models import SOSAlert
 from django.db.models import Count, Q, Avg
 from django.utils import timezone
+from django.core.serializers.json import DjangoJSONEncoder
 from datetime import timedelta
 import json
 
@@ -85,9 +86,9 @@ def dashboard_view(request):
         'recent_detections': recent_detections,
         'recent_accidents': recent_accidents_list,
         'vehicle_status': vehicle_status,
-        'detection_breakdown': detection_breakdown,
-        'latest_gps': latest_gps,
-        'weekly_activity': weekly_activity,
+        'detection_breakdown': json.dumps(detection_breakdown, cls=DjangoJSONEncoder),
+        'latest_gps': json.dumps(latest_gps, cls=DjangoJSONEncoder),
+        'weekly_activity': json.dumps(weekly_activity, cls=DjangoJSONEncoder),
     }
 
     return render(request, 'dashboard/index.html', context)

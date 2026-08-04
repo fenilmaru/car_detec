@@ -89,14 +89,14 @@ class DrowsinessDetector:
 
         # Drowsiness logic
         blink_rate = sum(self.blink_history) / len(self.blink_history) if self.blink_history else 0
-        is_drowsy = (ear < self.EAR_THRESH * 0.8) or (blink_rate > 0.5) or yawn_detected
+        is_drowsy = (ear < self.EYE_AR_THRESH * 0.8) or (blink_rate > 0.5) or yawn_detected
 
         if is_drowsy:
             self.consecutive_drowsy += 1
         else:
             self.consecutive_drowsy = max(0, self.consecutive_drowsy - 1)
 
-        confidence = min(1.0, self.consecutive_drowsy / 10.0) if is_drowsy else max(0, 1.0 - confidence)
+        confidence = min(1.0, self.consecutive_drowsy / 10.0) if is_drowsy else max(0.0, 1.0 - (self.consecutive_drowsy / 10.0))
 
         return {
             'is_drowsy': is_drowsy,

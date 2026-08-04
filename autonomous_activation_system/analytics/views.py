@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Avg, Sum, Q
+from django.core.serializers.json import DjangoJSONEncoder
 from vehicles.models import Vehicle, Trip
 from drivers.models import Driver
 from accidents.models import Accident
@@ -8,6 +9,7 @@ from camera.models import DetectionLog
 from tracking.models import GPSLocation
 from django.utils import timezone
 from datetime import timedelta, datetime
+import json
 
 @login_required
 def analytics_view(request):
@@ -43,10 +45,10 @@ def analytics_view(request):
     context = {
         'utilization': round(utilization, 1),
         'top_drivers': top_drivers,
-        'accidents_by_severity': accidents_by_severity,
-        'detections_by_type': detections_by_type,
+        'accidents_by_severity': json.dumps(accidents_by_severity, cls=DjangoJSONEncoder),
+        'detections_by_type': json.dumps(detections_by_type, cls=DjangoJSONEncoder),
         'critical_events': critical_events,
-        'daily_detections': daily_detections,
+        'daily_detections': json.dumps(daily_detections, cls=DjangoJSONEncoder),
         'total_trips': total_trips,
         'completed_trips': completed_trips,
     }

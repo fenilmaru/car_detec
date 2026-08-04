@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load static %}
 {% block title %}Tracking | AAS{% endblock %}
 {% block content %}
 <div class="container-fluid px-4 py-4" data-aos="fade-up">
@@ -33,7 +34,7 @@
 {% endblock %}
 {% block extra_js %}
 <script>
-    const gpsMarkers = {{ gps_locations|safe }};
+    const gpsMarkers = {{ gps_markers_json|safe }};
 </script>
 <script src="{% static 'js/tracking.js' %}"></script>
 {% endblock %}

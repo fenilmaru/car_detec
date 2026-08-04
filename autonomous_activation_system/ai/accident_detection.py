@@ -73,7 +73,7 @@ class AccidentDetector:
             'impact_score': round(float(impact_score if accident_detected else 0), 4),
         }
 
-    def analyze_visual(self, detections: List[Dict], frame: Optional = None) -> Dict:
+    def analyze_visual(self, detections: List[Dict], frame: Optional[np.ndarray] = None) -> Dict:
         """Analyze visual data for accident indicators."""
         # Look for collision indicators in detection data
         collision_detected = False
